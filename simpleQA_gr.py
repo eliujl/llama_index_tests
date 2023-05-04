@@ -3,8 +3,8 @@ import gradio as gr
 from llama_index import SimpleDirectoryReader, GPTVectorStoreIndex
 
 
-def ingest():
-    documents = SimpleDirectoryReader('./docs').load_data()
+def ingest(docs_dir):
+    documents = SimpleDirectoryReader(docs_dir).load_data()
     index = GPTVectorStoreIndex.from_documents(documents)
     return index
 
@@ -20,7 +20,8 @@ def get_answer(query_text):
     return response
 
 
-index = ingest()
+docs_dir = input("Enter the directory for ingestion: ")
+index = ingest(docs_dir)
 
 iface = gr.Interface(
     fn=get_answer,
